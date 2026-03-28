@@ -1,0 +1,7 @@
+# Wish Engager cron entry
+# Runs every 30 minutes. Add to crontab with: crontab -e
+# Or let install.sh handle it automatically.
+#
+# This line runs the daemon script every 30 minutes.
+# Adjust the path if your project is in a different location.
+*/30 * * * * /path/to/your/project/scripts/wish-daemon.sh >> /path/to/your/project/storage/logs/wish-cron.log 2>&1

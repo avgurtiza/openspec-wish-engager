@@ -1,0 +1,22 @@
+# Wish Engager Configuration
+# Copy this to .opencode/wish-engager.yaml and customize for your project.
+
+# Commands run during the verify step after implementation.
+# The agent runs these in sequence. If any fails, it notes it in the run-log.
+verify:
+  # Lint/format command (run first)
+  lint: "vendor/bin/pint --dirty"
+  # Test command (run after lint)
+  test: "php artisan test"
+
+# Cooldown between wish engagements (seconds)
+cooldown: 60
+
+# Maximum time per wish before flagging (minutes)
+max_time_per_wish: 30
+
+# Worktree directory (relative to project root)
+worktree_dir: ".worktrees"
+
+# Whether to skip _example wish directory (recommended: true)
+skip_example: true
