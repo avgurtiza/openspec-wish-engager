@@ -1,6 +1,8 @@
 # wish-engager
 
-An autonomous AI development pipeline for [OpenCode](https://opencode.ai). Drop feature wishes into a folder, and an agent picks them up, plans them, implements them in git worktrees, and logs results — without human intervention.
+An agent-agnostic autonomous AI development pipeline. Drop feature wishes into a folder, and any compatible agent picks them up, plans them, implements them in git worktrees, and logs results — without human intervention.
+
+**Compatible agents:** OpenCode, KiloCode, Claude Code, Gemini CLI
 
 **Platforms:** macOS, Linux, Windows WSL.
 
@@ -26,6 +28,19 @@ You: "I want dark mode"
    wishes/add-dark-mode/run-log.md
      (what happened, how long, pass/fail)
 ```
+
+## Agent Compatibility
+
+The install script auto-detects which agents you have installed:
+
+| Agent | Skills Location | Install Method | Status |
+|-------|----------------|----------------|--------|
+| **OpenCode** | `.opencode/skills/` | Copy files | ✅ |
+| **KiloCode** | `.opencode/skills/` | Copy files | ✅ |
+| **Claude Code** | `.claude/skills/` | Copy files | ✅ |
+| **Gemini CLI** | `~/.agents/skills/` | `gemini skills install` | ✅ |
+
+All agents use the same `/wish` and `/fulfill` commands with identical behavior.
 
 ## Affinity, Not Priority
 
@@ -53,11 +68,12 @@ Or install into the current directory:
 ./install.sh
 ```
 
+The install script auto-detects which agents are installed and installs to the appropriate locations.
+
 This installs:
-- `.opencode/skills/wish/` — guided wish creation
-- `.opencode/skills/fulfill/` — autonomous pipeline
-- `.opencode/command/wish.md` — `/wish` command
-- `.opencode/command/fulfill.md` — `/fulfill` command
+- **OpenCode/KiloCode:** `.opencode/skills/wish/`, `.opencode/skills/fulfill/`, `.opencode/command/wish.md`, `.opencode/command/fulfill.md`
+- **Claude Code:** `.claude/skills/wish/`, `.claude/skills/fulfill/`, `.claude/commands/wish.md`, `.claude/commands/fulfill.md`
+- **Gemini CLI:** Installs skills via `gemini skills install`
 - `.opencode/wish-engager.yaml` — config (lint/test commands)
 - `scripts/wish-daemon.sh` — daemon for autonomous runs
 - `wishes/` — wish directory with example
@@ -173,6 +189,13 @@ your-project/
 │   │   ├── wish.md
 │   │   └── fulfill.md
 │   └── wish-engager.yaml
+├── .claude/                     # (Claude Code only)
+│   ├── skills/
+│   │   ├── wish/SKILL.md
+│   │   └── fulfill/SKILL.md
+│   └── commands/
+│       ├── wish.md
+│       └── fulfill.md
 ├── wishes/
 │   ├── _example/
 │   ├── .completed/
