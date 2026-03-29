@@ -93,7 +93,7 @@ Guide the user through creating a high-quality wish for the autonomous agent pip
    - Wish name and location
    - Affinity level
    - Summary of what's in the wish
-   - Prompt: "Wish created. The agent will pick this up on the next engage cycle. Run `/engage` to start immediately, or leave it for the daemon."
+   - Prompt: "Wish created. The agent will pick this up on the next fulfillment cycle. Run `/fulfill` to start immediately, or leave it for the daemon."
 
 **Guardrails**
 - Never create a wish without user approval of the content

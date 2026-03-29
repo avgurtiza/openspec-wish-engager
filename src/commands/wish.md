@@ -14,4 +14,4 @@ Invoke the `wish` skill. Pass any provided input as the initial description.
 After the skill completes, summarize:
 - Wish name and location
 - Affinity level
-- Next step: run `/engage` to start working on it, or leave for the daemon
+- Next step: run `/fulfill` to start working on it, or leave for the daemon

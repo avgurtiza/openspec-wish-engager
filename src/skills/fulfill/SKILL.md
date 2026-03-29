@@ -1,5 +1,5 @@
 ---
-name: engage
+name: fulfill
 description: Autonomous agent pipeline. Scans the wish list, picks the highest-affinity pending wish, promotes it to a change, implements it in a git worktree, and logs results.
 license: MIT
 metadata:
@@ -227,7 +227,7 @@ Run the autonomous wish-engager pipeline.
 **Output On Completion**
 
 ```
-## Engagement Complete
+## Fulfillment Complete
 
 **Wish:** <name>
 **Affinity:** <N>
@@ -242,7 +242,7 @@ Review the worktree when ready. Branch is `feature/<name>`.
 **Output On Blocker**
 
 ```
-## Engagement Blocked
+## Fulfillment Blocked
 
 **Wish:** <name>
 **Affinity:** <N>

@@ -15,7 +15,7 @@ You: "I want dark mode"
      wish.md    ← your mini PRD
      meta.yaml  ← affinity: 1, status: pending
          ↓
-   /engage (or daemon picks it up)
+   /fulfill (or daemon picks it up)
          ↓
    wishes/add-dark-mode/
      proposal.md, design.md, tasks.md
@@ -55,9 +55,9 @@ Or install into the current directory:
 
 This installs:
 - `.opencode/skills/wish/` — guided wish creation
-- `.opencode/skills/engage/` — autonomous pipeline
+- `.opencode/skills/fulfill/` — autonomous pipeline
 - `.opencode/command/wish.md` — `/wish` command
-- `.opencode/command/engage.md` — `/engage` command
+- `.opencode/command/fulfill.md` — `/fulfill` command
 - `.opencode/wish-engager.yaml` — config (lint/test commands)
 - `scripts/wish-daemon.sh` — daemon for autonomous runs
 - `wishes/` — wish directory with example
@@ -88,7 +88,7 @@ The agent asks what you want, asks 2-3 clarifying questions, writes a structured
 ### Run one cycle
 
 ```
-/engage
+/fulfill
 ```
 
 Picks the highest-affinity pending wish, implements it, logs results.
@@ -96,7 +96,7 @@ Picks the highest-affinity pending wish, implements it, logs results.
 ### Run until empty
 
 ```
-/engage --all
+/fulfill --all
 ```
 
 Loops through all pending wishes.
@@ -104,7 +104,7 @@ Loops through all pending wishes.
 ### Work on a specific wish
 
 ```
-/engage --wish add-dark-mode
+/fulfill --wish add-dark-mode
 ```
 
 ### Daemon mode
@@ -168,10 +168,10 @@ your-project/
 ├── .opencode/
 │   ├── skills/
 │   │   ├── wish/SKILL.md
-│   │   └── engage/SKILL.md
+│   │   └── fulfill/SKILL.md
 │   ├── command/
 │   │   ├── wish.md
-│   │   └── engage.md
+│   │   └── fulfill.md
 │   └── wish-engager.yaml
 ├── wishes/
 │   ├── _example/

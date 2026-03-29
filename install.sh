@@ -81,12 +81,12 @@ sed_replace() {
 # 1. Skills
 echo "Installing skills..."
 copy_if_missing "$SRC_DIR/skills/wish/SKILL.md" "$PROJECT_DIR/.opencode/skills/wish/SKILL.md"
-copy_if_missing "$SRC_DIR/skills/engage/SKILL.md" "$PROJECT_DIR/.opencode/skills/engage/SKILL.md"
+copy_if_missing "$SRC_DIR/skills/fulfill/SKILL.md" "$PROJECT_DIR/.opencode/skills/fulfill/SKILL.md"
 
 # 2. Commands
 echo "Installing commands..."
 copy_if_missing "$SRC_DIR/commands/wish.md" "$PROJECT_DIR/.opencode/command/wish.md"
-copy_if_missing "$SRC_DIR/commands/engage.md" "$PROJECT_DIR/.opencode/command/engage.md"
+copy_if_missing "$SRC_DIR/commands/fulfill.md" "$PROJECT_DIR/.opencode/command/fulfill.md"
 
 # 3. Config
 echo "Installing config..."
@@ -185,7 +185,7 @@ echo "Next steps:"
 echo "  1. Edit .opencode/wish-engager.yaml to configure lint/test commands"
 echo "  2. Restart OpenCode to pick up new skills"
 echo "  3. Run /wish to create your first wish"
-echo "  4. Run /engage to start the pipeline"
+echo "  4. Run /fulfill to start the pipeline"
 echo ""
 
 if [ "$OS" = "macos" ]; then

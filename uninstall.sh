@@ -42,7 +42,7 @@ removed=()
 preserved=()
 
 # Remove skills
-for skill in wish engage; do
+for skill in wish fulfill; do
     target="$PROJECT_DIR/.opencode/skills/$skill/SKILL.md"
     if [ -f "$target" ]; then
         rm "$target"
@@ -52,7 +52,7 @@ for skill in wish engage; do
 done
 
 # Remove commands
-for cmd in wish engage; do
+for cmd in wish fulfill; do
     target="$PROJECT_DIR/.opencode/command/$cmd.md"
     if [ -f "$target" ]; then
         rm "$target"

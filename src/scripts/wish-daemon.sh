@@ -38,10 +38,10 @@ if [ "$pending_count" -eq 0 ]; then
     exit 0
 fi
 
-log "Found $pending_count pending wish(es). Starting engagement."
+log "Found $pending_count pending wish(es). Starting fulfillment."
 
 # Run opencode engage
 cd "$PROJECT_DIR"
-opencode run "Run the engage skill to implement the next pending wish." 2>&1 >> "$LOG_FILE"
+opencode run "Run the fulfill skill to implement the next pending wish." 2>&1 >> "$LOG_FILE"
 
-log "Engagement cycle complete."
+log "Fulfillment cycle complete."
