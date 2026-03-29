@@ -5,6 +5,7 @@
 #   ./install.sh                  # Install into current directory
 #   ./install.sh /path/to/project # Install into specific project
 #
+# Supports: OpenCode, KiloCode, Claude Code
 # Supports: macOS (launchd), Linux (cron), Windows WSL (cron)
 # This copies skills, commands, scripts, and wish directory structure
 # into the target project. Existing files are not overwritten.
@@ -39,8 +40,34 @@ detect_os() {
     esac
 }
 
+# Detect installed agents
+detect_agents() {
+    agents=()
+    
+    if command -v opencode &>/dev/null; then
+        agents+=("opencode")
+    fi
+    
+    if command -v kilo &>/dev/null; then
+        agents+=("kilocode")
+    fi
+    
+    if command -v claude &>/dev/null; then
+        agents+=("claude")
+    fi
+    
+    if [ ${#agents[@]} -eq 0 ]; then
+        echo "Warning: No known AI agents detected (opencode, kilo, claude)."
+        echo "Will install files but commands may not be recognized."
+        agents=("opencode")  # Default to opencode structure
+    fi
+    
+    echo "Detected agents: ${agents[*]}"
+}
+
 OS="$(detect_os)"
 echo "Detected OS: $OS"
+AGENTS="$(detect_agents)"
 echo ""
 
 # Verify it looks like a project directory
@@ -78,17 +105,29 @@ sed_replace() {
     sed "$1" "$2" > "$3"
 }
 
-# 1. Skills
-echo "Installing skills..."
-copy_if_missing "$SRC_DIR/skills/wish/SKILL.md" "$PROJECT_DIR/.opencode/skills/wish/SKILL.md"
-copy_if_missing "$SRC_DIR/skills/fulfill/SKILL.md" "$PROJECT_DIR/.opencode/skills/fulfill/SKILL.md"
+# Install for each detected agent
+for agent in "${agents[@]}"; do
+    echo "Installing for $agent..."
+    
+    case "$agent" in
+        opencode|kilocode)
+            # OpenCode and KiloCode use .opencode/ structure
+            copy_if_missing "$SRC_DIR/skills/wish/SKILL.md" "$PROJECT_DIR/.opencode/skills/wish/SKILL.md"
+            copy_if_missing "$SRC_DIR/skills/fulfill/SKILL.md" "$PROJECT_DIR/.opencode/skills/fulfill/SKILL.md"
+            copy_if_missing "$SRC_DIR/commands/wish.md" "$PROJECT_DIR/.opencode/command/wish.md"
+            copy_if_missing "$SRC_DIR/commands/fulfill.md" "$PROJECT_DIR/.opencode/command/fulfill.md"
+            ;;
+        claude)
+            # Claude Code uses .claude/ structure
+            copy_if_missing "$SRC_DIR/claude/skills/wish/SKILL.md" "$PROJECT_DIR/.claude/skills/wish/SKILL.md"
+            copy_if_missing "$SRC_DIR/claude/skills/fulfill/SKILL.md" "$PROJECT_DIR/.claude/skills/fulfill/SKILL.md"
+            copy_if_missing "$SRC_DIR/claude/commands/wish.md" "$PROJECT_DIR/.claude/commands/wish.md"
+            copy_if_missing "$SRC_DIR/claude/commands/fulfill.md" "$PROJECT_DIR/.claude/commands/fulfill.md"
+            ;;
+    esac
+done
 
-# 2. Commands
-echo "Installing commands..."
-copy_if_missing "$SRC_DIR/commands/wish.md" "$PROJECT_DIR/.opencode/command/wish.md"
-copy_if_missing "$SRC_DIR/commands/fulfill.md" "$PROJECT_DIR/.opencode/command/fulfill.md"
-
-# 3. Config
+# 3. Config (shared)
 echo "Installing config..."
 copy_if_missing "$SRC_DIR/config/wish-engager.yaml.example" "$PROJECT_DIR/.opencode/wish-engager.yaml.example"
 copy_if_missing "$SRC_DIR/config/wish-engager.yaml.example" "$PROJECT_DIR/.opencode/wish-engager.yaml"
@@ -183,7 +222,7 @@ fi
 
 echo "Next steps:"
 echo "  1. Edit .opencode/wish-engager.yaml to configure lint/test commands"
-echo "  2. Restart OpenCode to pick up new skills"
+echo "  2. Restart your AI agent to pick up new skills"
 echo "  3. Run /wish to create your first wish"
 echo "  4. Run /fulfill to start the pipeline"
 echo ""
