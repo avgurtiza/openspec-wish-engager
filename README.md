@@ -57,6 +57,13 @@ skip_example: true
 ### /wish
 Guided brainstorming to capture feature intent. Converts a vague idea into a structured markdown file.
 
+```
+/wish                        # OpenCode, KiloCode, Claude Code: starts conversation
+/wish add dark mode          # All agents: starts with description
+```
+
+> **Gemini CLI limitation:** Due to how Gemini loads skills, `/wish` alone will not start the conversation. You must provide a description: `/wish add dark mode`.
+
 ### /fulfill
 Starts the autonomous implementation pipeline.
 - `/fulfill`: Run one cycle.
