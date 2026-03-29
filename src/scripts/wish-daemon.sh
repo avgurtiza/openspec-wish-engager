@@ -7,7 +7,7 @@ set -euo pipefail
 # Resolve project directory: parent of the scripts/ directory this script lives in
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
-WISHES_DIR="$PROJECT_DIR/openspec/wishes"
+WISHES_DIR="$PROJECT_DIR/wishes"
 LOG_FILE="$PROJECT_DIR/storage/logs/wish-daemon.log"
 
 # Ensure log directory exists
@@ -42,6 +42,6 @@ log "Found $pending_count pending wish(es). Starting engagement."
 
 # Run opencode engage
 cd "$PROJECT_DIR"
-opencode run "Run the openspec-engage skill to implement the next pending wish." 2>&1 >> "$LOG_FILE"
+opencode run "Run the engage skill to implement the next pending wish." 2>&1 >> "$LOG_FILE"
 
 log "Engagement cycle complete."

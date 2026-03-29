@@ -1,8 +1,6 @@
-# opencode-wish-engager
+# wish-engager
 
 An autonomous AI development pipeline for [OpenCode](https://opencode.ai). Drop feature wishes into a folder, and an agent picks them up, plans them, implements them in git worktrees, and logs results — without human intervention.
-
-**Depends on:** [OpenSpec](https://github.com/anthropics/openspec) CLI.
 
 **Platforms:** macOS, Linux, Windows WSL.
 
@@ -11,21 +9,21 @@ An autonomous AI development pipeline for [OpenCode](https://opencode.ai). Drop 
 ```
 You: "I want dark mode"
          ↓
-   /opsx-wish (guided brainstorming)
+   /wish (guided brainstorming)
          ↓
-   openspec/wishes/add-dark-mode/
+   wishes/add-dark-mode/
      wish.md    ← your mini PRD
      meta.yaml  ← affinity: 1, status: pending
          ↓
-   /opsx-engage (or daemon picks it up)
+   /engage (or daemon picks it up)
          ↓
-   openspec/changes/add-dark-mode/
+   wishes/add-dark-mode/
      proposal.md, design.md, tasks.md
          ↓
    .worktrees/add-dark-mode/
      (agent implements here, isolated)
          ↓
-   openspec/changes/add-dark-mode/run-log.md
+   wishes/add-dark-mode/run-log.md
      (what happened, how long, pass/fail)
 ```
 
@@ -44,7 +42,7 @@ The agent picks by affinity (1 first), then oldest. Higher affinity = higher pro
 ## Installation
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/opencode-wish-engager.git /tmp/wish-engager
+git clone https://github.com/YOUR_USERNAME/wish-engager.git /tmp/wish-engager
 cd /tmp/wish-engager
 ./install.sh /path/to/your/project
 ```
@@ -56,13 +54,13 @@ Or install into the current directory:
 ```
 
 This installs:
-- `.opencode/skills/openspec-wish/` — guided wish creation
-- `.opencode/skills/openspec-engage/` — autonomous pipeline
-- `.opencode/command/opsx-wish.md` — `/opsx-wish` command
-- `.opencode/command/opsx-engage.md` — `/opsx-engage` command
+- `.opencode/skills/wish/` — guided wish creation
+- `.opencode/skills/engage/` — autonomous pipeline
+- `.opencode/command/wish.md` — `/wish` command
+- `.opencode/command/engage.md` — `/engage` command
 - `.opencode/wish-engager.yaml` — config (lint/test commands)
 - `scripts/wish-daemon.sh` — daemon for autonomous runs
-- `openspec/wishes/` — wish directory with example
+- `wishes/` — wish directory with example
 
 ## Configuration
 
@@ -82,7 +80,7 @@ worktree_dir: ".worktrees"            # Where worktrees go
 ### Create a wish
 
 ```
-/opsx-wish
+/wish
 ```
 
 The agent asks what you want, asks 2-3 clarifying questions, writes a structured `wish.md`, and asks for your affinity score.
@@ -90,7 +88,7 @@ The agent asks what you want, asks 2-3 clarifying questions, writes a structured
 ### Run one cycle
 
 ```
-/opsx-engage
+/engage
 ```
 
 Picks the highest-affinity pending wish, implements it, logs results.
@@ -98,7 +96,7 @@ Picks the highest-affinity pending wish, implements it, logs results.
 ### Run until empty
 
 ```
-/opsx-engage --all
+/engage --all
 ```
 
 Loops through all pending wishes.
@@ -106,7 +104,7 @@ Loops through all pending wishes.
 ### Work on a specific wish
 
 ```
-/opsx-engage --wish add-dark-mode
+/engage --wish add-dark-mode
 ```
 
 ### Daemon mode
@@ -153,10 +151,10 @@ crontab -e    # then delete the wish-daemon.sh line
 
 ## What the Agent Does
 
-1. **Scans** `openspec/wishes/` for pending items
+1. **Scans** `wishes/` for pending items
 2. **Selects** by affinity (1→2→3), then oldest
 3. **Creates** a git worktree (isolated branch)
-4. **Promotes** wish to an OpenSpec change (proposal + design + tasks)
+4. **Promotes** wish to a change (proposal + design + tasks)
 5. **Implements** tasks with retry logic (2 retries per task, then skip)
 6. **Verifies** with your lint/test commands
 7. **Logs** results to `run-log.md`
@@ -169,19 +167,22 @@ crontab -e    # then delete the wish-daemon.sh line
 your-project/
 ├── .opencode/
 │   ├── skills/
-│   │   ├── openspec-wish/SKILL.md
-│   │   └── openspec-engage/SKILL.md
+│   │   ├── wish/SKILL.md
+│   │   └── engage/SKILL.md
 │   ├── command/
-│   │   ├── opsx-wish.md
-│   │   └── opsx-engage.md
+│   │   ├── wish.md
+│   │   └── engage.md
 │   └── wish-engager.yaml
-├── openspec/
-│   ├── wishes/
-│   │   ├── _example/
-│   │   ├── .completed/
-│   │   └── your-wish-here/
-│   └── changes/
-│       └── (agent promotes wishes here)
+├── wishes/
+│   ├── _example/
+│   ├── .completed/
+│   └── your-wish-here/
+│       ├── wish.md
+│       ├── proposal.md
+│       ├── design.md
+│       ├── tasks.md
+│       ├── run-log.md
+│       └── meta.yaml
 ├── .worktrees/
 │   └── (agent creates isolated workspaces here)
 └── scripts/

@@ -1,6 +1,6 @@
 ---
-name: openspec-engage
-description: Autonomous agent pipeline. Scans the wish list, picks the highest-affinity pending wish, promotes it to an OpenSpec change, implements it in a git worktree, and logs results.
+name: engage
+description: Autonomous agent pipeline. Scans the wish list, picks the highest-affinity pending wish, promotes it to a change, implements it in a git worktree, and logs results.
 license: MIT
 metadata:
   author: tatay
@@ -10,10 +10,8 @@ metadata:
 Run the autonomous wish-engager pipeline.
 
 **Prerequisites**:
-- `openspec/wishes/` directory with pending wishes
-- `openspec/changes/` directory exists
+- `wishes/` directory with pending wishes
 - `.opencode/wish-engager.yaml` config file (optional — uses defaults if missing)
-- OpenSpec CLI available
 
 **Input**: Optionally specify:
 - `--all` — loop until no pending wishes remain
@@ -41,14 +39,14 @@ Run the autonomous wish-engager pipeline.
 
 2. **Scan for pending wishes**
 
-   List directories in `openspec/wishes/`. For each directory, read `meta.yaml`.
+   List directories in `wishes/`. For each directory, read `meta.yaml`.
 
    Filter to `status: pending`.
    Skip `_example` if `skip_example` is true.
    Skip `.completed` directory.
 
    ```bash
-   for dir in openspec/wishes/*/; do
+   for dir in wishes/*/; do
      [ -d "$dir" ] || continue
      name=$(basename "$dir")
      [ "$name" = "_example" ] && [ "$skip_example" = "true" ] && continue
@@ -58,7 +56,7 @@ Run the autonomous wish-engager pipeline.
    ```
 
    **If no pending wishes:**
-   > "No pending wishes found. Create one with `/opsx-wish`."
+   > "No pending wishes found. Create one with `/wish`."
    > STOP.
 
 3. **Select a wish**
@@ -86,15 +84,11 @@ Run the autonomous wish-engager pipeline.
      - `bun install` or `npm install` (if `package.json` exists)
    - Verify baseline: run test command — report failures but proceed
 
-5. **Promote wish to OpenSpec change**
+5. **Promote wish to change**
 
-   ```bash
-   mkdir -p openspec/changes/<name>
-   ```
+   Read `wishes/<name>/wish.md`.
 
-   Read `openspec/wishes/<name>/wish.md`.
-
-   Generate these files in `openspec/changes/<name>/`:
+   Generate these files in `wishes/<name>/`:
 
    **proposal.md** — structured from wish.md:
    ```markdown
@@ -135,14 +129,9 @@ Run the autonomous wish-engager pipeline.
    - [ ] 2.1 [Task]
    ```
 
-   **.openspec.yaml**:
-   ```yaml
-   schema: spec-driven
-   ```
-
 6. **Update wish status**
 
-   Edit `openspec/wishes/<name>/meta.yaml`:
+   Edit `wishes/<name>/meta.yaml`:
    - Set `status: in_progress`
    - Set `started_at:` to current ISO timestamp
 
@@ -192,7 +181,7 @@ Run the autonomous wish-engager pipeline.
 
 9. **Write run-log**
 
-   Create or append to `openspec/changes/<name>/run-log.md`:
+   Create or append to `wishes/<name>/run-log.md`:
 
    ```markdown
    # Run Log: <name>
@@ -214,13 +203,13 @@ Run the autonomous wish-engager pipeline.
 
     **If completed (most tasks done, verify passing):**
     - Update `meta.yaml`: `status: completed`, `completed_at: <ISO timestamp>`
-    - Move wish: `mv openspec/wishes/<name> openspec/wishes/.completed/<name>`
+    - Move wish: `mv wishes/<name> wishes/.completed/<name>`
     - Announce: "Wish '\<name\>' completed. Worktree at `<worktree_dir>/<name>` for review."
 
     **If blocked (>50% tasks failed):**
     - Update `meta.yaml`: `status: blocked`
     - Set `blocker_summary:` to one-line description
-    - Leave wish in `openspec/wishes/<name>/`
+    - Leave wish in `wishes/<name>/`
     - Announce: "Wish '\<name\>' blocked. See run-log.md for details."
 
     **If partially done (<50% failed but not all passing):**
@@ -260,9 +249,9 @@ Review the worktree when ready. Branch is `feature/<name>`.
 **Status:** blocked
 **Tasks:** <done>/<total> done
 **Blocker:** <summary>
-**Run Log:** openspec/changes/<name>/run-log.md
+**Run Log:** wishes/<name>/run-log.md
 
-Wish remains in `openspec/wishes/<name>/` for review.
+Wish remains in `wishes/<name>/` for review.
 ```
 
 **Guardrails**

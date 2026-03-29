@@ -1,5 +1,5 @@
 ---
-name: openspec-wish
+name: wish
 description: Create a new feature wish with guided brainstorming. Structures freeform ideas into clear mini PRDs that autonomous agents can implement without guessing intent.
 license: MIT
 metadata:
@@ -9,9 +9,9 @@ metadata:
 
 Guide the user through creating a high-quality wish for the autonomous agent pipeline.
 
-**Input**: Optionally, text after `/opsx-wish` describing what they want. If provided, skip the initial question.
+**Input**: Optionally, text after `/wish` describing what they want. If provided, skip the initial question.
 
-**Prerequisites**: Project must have `openspec/wishes/` directory. Run `install.sh` from the opencode-wish-engager repo if not present.
+**Prerequisites**: Project must have `wishes/` directory. Run `install.sh` from the wish-engager repo if not present.
 
 **Steps**
 
@@ -72,7 +72,7 @@ Guide the user through creating a high-quality wish for the autonomous agent pip
    Create the directory and files:
 
    ```bash
-   mkdir -p openspec/wishes/<name>
+   mkdir -p wishes/<name>
    ```
 
    Write `wish.md` with the approved content.
@@ -93,7 +93,7 @@ Guide the user through creating a high-quality wish for the autonomous agent pip
    - Wish name and location
    - Affinity level
    - Summary of what's in the wish
-   - Prompt: "Wish created. The agent will pick this up on the next engage cycle. Run `/opsx-engage` to start immediately, or leave it for the daemon."
+   - Prompt: "Wish created. The agent will pick this up on the next engage cycle. Run `/engage` to start immediately, or leave it for the daemon."
 
 **Guardrails**
 - Never create a wish without user approval of the content

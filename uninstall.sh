@@ -1,5 +1,5 @@
 #!/bin/bash
-# Uninstall opencode-wish-engager from a project.
+# Uninstall wish-engager from a project.
 #
 # Usage:
 #   ./uninstall.sh                  # Uninstall from current directory
@@ -35,14 +35,14 @@ else
     PROJECT_DIR="$(pwd)"
 fi
 
-echo "Uninstalling opencode-wish-engager from: $PROJECT_DIR"
+echo "Uninstalling wish-engager from: $PROJECT_DIR"
 echo ""
 
 removed=()
 preserved=()
 
 # Remove skills
-for skill in openspec-wish openspec-engage; do
+for skill in wish engage; do
     target="$PROJECT_DIR/.opencode/skills/$skill/SKILL.md"
     if [ -f "$target" ]; then
         rm "$target"
@@ -52,7 +52,7 @@ for skill in openspec-wish openspec-engage; do
 done
 
 # Remove commands
-for cmd in opsx-wish opsx-engage; do
+for cmd in wish engage; do
     target="$PROJECT_DIR/.opencode/command/$cmd.md"
     if [ -f "$target" ]; then
         rm "$target"
@@ -82,8 +82,7 @@ done
 
 # Preserved items
 preserved+=("$PROJECT_DIR/.opencode/wish-engager.yaml (config — remove manually)")
-preserved+=("$PROJECT_DIR/openspec/wishes/ (your wishes)")
-preserved+=("$PROJECT_DIR/openspec/changes/ (your changes)")
+preserved+=("$PROJECT_DIR/wishes/ (your wishes)")
 preserved+=("$PROJECT_DIR/.worktrees/ (your worktrees)")
 
 # Check if .gitignore entry should be removed

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Install opencode-wish-engager into a project.
+# Install wish-engager into a project.
 #
 # Usage:
 #   ./install.sh                  # Install into current directory
@@ -21,7 +21,7 @@ else
     PROJECT_DIR="$(pwd)"
 fi
 
-echo "Installing opencode-wish-engager into: $PROJECT_DIR"
+echo "Installing wish-engager into: $PROJECT_DIR"
 echo ""
 
 # Detect OS
@@ -80,13 +80,13 @@ sed_replace() {
 
 # 1. Skills
 echo "Installing skills..."
-copy_if_missing "$SRC_DIR/skills/openspec-wish/SKILL.md" "$PROJECT_DIR/.opencode/skills/openspec-wish/SKILL.md"
-copy_if_missing "$SRC_DIR/skills/openspec-engage/SKILL.md" "$PROJECT_DIR/.opencode/skills/openspec-engage/SKILL.md"
+copy_if_missing "$SRC_DIR/skills/wish/SKILL.md" "$PROJECT_DIR/.opencode/skills/wish/SKILL.md"
+copy_if_missing "$SRC_DIR/skills/engage/SKILL.md" "$PROJECT_DIR/.opencode/skills/engage/SKILL.md"
 
 # 2. Commands
 echo "Installing commands..."
-copy_if_missing "$SRC_DIR/commands/opsx-wish.md" "$PROJECT_DIR/.opencode/command/opsx-wish.md"
-copy_if_missing "$SRC_DIR/commands/opsx-engage.md" "$PROJECT_DIR/.opencode/command/opsx-engage.md"
+copy_if_missing "$SRC_DIR/commands/wish.md" "$PROJECT_DIR/.opencode/command/wish.md"
+copy_if_missing "$SRC_DIR/commands/engage.md" "$PROJECT_DIR/.opencode/command/engage.md"
 
 # 3. Config
 echo "Installing config..."
@@ -134,11 +134,11 @@ fi
 
 # 5. Wishes directory
 echo "Setting up wishes directory..."
-mkdir -p "$PROJECT_DIR/openspec/wishes/.completed"
-copy_if_missing "$SRC_DIR/wishes/.gitkeep" "$PROJECT_DIR/openspec/wishes/.gitkeep"
-copy_if_missing "$SRC_DIR/wishes/.completed/.gitkeep" "$PROJECT_DIR/openspec/wishes/.completed/.gitkeep"
-copy_if_missing "$SRC_DIR/wishes/_example/wish.md" "$PROJECT_DIR/openspec/wishes/_example/wish.md"
-copy_if_missing "$SRC_DIR/wishes/_example/meta.yaml" "$PROJECT_DIR/openspec/wishes/_example/meta.yaml"
+mkdir -p "$PROJECT_DIR/wishes/.completed"
+copy_if_missing "$SRC_DIR/wishes/.gitkeep" "$PROJECT_DIR/wishes/.gitkeep"
+copy_if_missing "$SRC_DIR/wishes/.completed/.gitkeep" "$PROJECT_DIR/wishes/.completed/.gitkeep"
+copy_if_missing "$SRC_DIR/wishes/_example/wish.md" "$PROJECT_DIR/wishes/_example/wish.md"
+copy_if_missing "$SRC_DIR/wishes/_example/meta.yaml" "$PROJECT_DIR/wishes/_example/meta.yaml"
 
 # 6. Ensure .worktrees is gitignored
 echo "Checking .gitignore..."
@@ -146,14 +146,14 @@ GITIGNORE="$PROJECT_DIR/.gitignore"
 if [ -f "$GITIGNORE" ]; then
     if ! grep -q '\.worktrees' "$GITIGNORE"; then
         echo "" >> "$GITIGNORE"
-        echo "# Git worktrees (opencode-wish-engager)" >> "$GITIGNORE"
+        echo "# Git worktrees (wish-engager)" >> "$GITIGNORE"
         echo ".worktrees/" >> "$GITIGNORE"
         installed+=("$GITIGNORE (appended .worktrees/)")
     else
         skipped+=("$GITIGNORE (.worktrees already ignored)")
     fi
 else
-    echo "# Git worktrees (opencode-wish-engager)" > "$GITIGNORE"
+    echo "# Git worktrees (wish-engager)" > "$GITIGNORE"
     echo ".worktrees/" >> "$GITIGNORE"
     installed+=("$GITIGNORE (created)")
 fi
@@ -184,8 +184,8 @@ fi
 echo "Next steps:"
 echo "  1. Edit .opencode/wish-engager.yaml to configure lint/test commands"
 echo "  2. Restart OpenCode to pick up new skills"
-echo "  3. Run /opsx-wish to create your first wish"
-echo "  4. Run /opsx-engage to start the pipeline"
+echo "  3. Run /wish to create your first wish"
+echo "  4. Run /engage to start the pipeline"
 echo ""
 
 if [ "$OS" = "macos" ]; then
