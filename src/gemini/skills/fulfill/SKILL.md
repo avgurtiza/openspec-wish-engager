@@ -1,6 +1,6 @@
 ---
 name: fulfill
-description: Autonomous pipeline to pick a wish, plan it, implement it in a git worktree, and log results. Use when user says "/fulfill" or wants to work on pending wishes.
+description: Implement pending wishes. Usage: /fulfill (all), /fulfill --all (loop), /fulfill --wish <name> (specific). After activating, the skill picks and implements wishes.
 ---
 
 Run the autonomous sprite pipeline.

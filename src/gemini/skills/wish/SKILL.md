@@ -1,6 +1,6 @@
 ---
 name: wish
-description: Create a new feature wish with guided brainstorming. Use when user wants to add a feature and says "/wish" or describes something they want.
+description: Create a new feature wish. Usage: /wish <feature description>. After activating, describe what you want to add (e.g., "/wish dark mode" or "/wish user authentication").
 ---
 
 You are now in wish creation mode. Follow these steps to create a structured feature wish.
