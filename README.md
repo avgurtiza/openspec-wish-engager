@@ -1,4 +1,4 @@
-# wish-engager
+# sprite
 
 An agent-agnostic autonomous AI development pipeline. Drop feature wishes into a folder, and any compatible agent picks them up, plans them, implements them in git worktrees, and logs results — without human intervention.
 
@@ -57,8 +57,8 @@ The agent picks by affinity (1 first), then oldest. Higher affinity = higher pro
 ## Installation
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/wish-engager.git /tmp/wish-engager
-cd /tmp/wish-engager
+git clone https://github.com/YOUR_USERNAME/sprite.git /tmp/sprite
+cd /tmp/sprite
 ./install.sh /path/to/your/project
 ```
 

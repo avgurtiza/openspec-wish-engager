@@ -1,5 +1,5 @@
 #!/bin/bash
-# Uninstall wish-engager from a project.
+# Uninstall sprite from a project.
 #
 # Usage:
 #   ./uninstall.sh                  # Uninstall from current directory
@@ -35,7 +35,7 @@ else
     PROJECT_DIR="$(pwd)"
 fi
 
-echo "Uninstalling wish-engager from: $PROJECT_DIR"
+echo "Uninstalling sprite from: $PROJECT_DIR"
 echo ""
 
 removed=()

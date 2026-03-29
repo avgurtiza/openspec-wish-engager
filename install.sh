@@ -1,5 +1,5 @@
 #!/bin/bash
-# Install wish-engager into a project.
+# Install sprite into a project.
 #
 # Usage:
 #   ./install.sh                  # Install into current directory
@@ -22,7 +22,7 @@ else
     PROJECT_DIR="$(pwd)"
 fi
 
-echo "Installing wish-engager into: $PROJECT_DIR"
+echo "Installing sprite into: $PROJECT_DIR"
 echo ""
 
 # Detect OS
