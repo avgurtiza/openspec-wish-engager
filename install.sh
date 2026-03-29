@@ -48,7 +48,7 @@ detect_agents() {
         agents+=("opencode")
     fi
     
-    if command -v kilo &>/dev/null; then
+    if command -v kilo &>/dev/null || command -v kilocode &>/dev/null; then
         agents+=("kilocode")
     fi
     
@@ -90,18 +90,12 @@ fi
 installed=()
 skipped=()
 
-# Helper: copy file if it doesn't exist
-copy_if_missing() {
+# Helper: copy file (always overwrites)
+copy_file() {
     local src="$1"
     local dst="$2"
-
-    if [ -e "$dst" ]; then
-        skipped+=("$dst")
-    else
-        mkdir -p "$(dirname "$dst")"
-        cp "$src" "$dst"
-        installed+=("$dst")
-    fi
+    mkdir -p "$(dirname "$dst")"
+    cp "$src" "$dst"
 }
 
 # Helper: portable sed replacement (works on macOS BSD sed and Linux GNU sed)
@@ -117,18 +111,18 @@ for agent in "${agents[@]}"; do
     case "$agent" in
         opencode|kilocode)
             # OpenCode and KiloCode use .opencode/ structure
-            copy_if_missing "$SRC_DIR/skills/wish/SKILL.md" "$PROJECT_DIR/.opencode/skills/wish/SKILL.md"
-            copy_if_missing "$SRC_DIR/skills/fulfill/SKILL.md" "$PROJECT_DIR/.opencode/skills/fulfill/SKILL.md"
-            copy_if_missing "$SRC_DIR/commands/wish.md" "$PROJECT_DIR/.opencode/command/wish.md"
-            copy_if_missing "$SRC_DIR/commands/fulfill.md" "$PROJECT_DIR/.opencode/command/fulfill.md"
-            copy_if_missing "$SRC_DIR/config/sprite.yaml" "$PROJECT_DIR/.opencode/sprite.yaml"
-            copy_if_missing "$SRC_DIR/config/sprite.yaml" "$PROJECT_DIR/.opencode/sprite.yaml"
+            copy_file "$SRC_DIR/skills/wish/SKILL.md" "$PROJECT_DIR/.opencode/skills/wish/SKILL.md"
+            copy_file "$SRC_DIR/skills/fulfill/SKILL.md" "$PROJECT_DIR/.opencode/skills/fulfill/SKILL.md"
+            copy_file "$SRC_DIR/commands/wish.md" "$PROJECT_DIR/.opencode/command/wish.md"
+            copy_file "$SRC_DIR/commands/fulfill.md" "$PROJECT_DIR/.opencode/command/fulfill.md"
+            copy_file "$SRC_DIR/config/sprite.yaml" "$PROJECT_DIR/.opencode/sprite.yaml"
+            copy_file "$SRC_DIR/config/sprite.yaml" "$PROJECT_DIR/.opencode/sprite.yaml"
             ;;
         claude)
             # Claude Code uses .claude/ structure (skills only, no commands dir)
-            copy_if_missing "$SRC_DIR/claude/skills/wish/SKILL.md" "$PROJECT_DIR/.claude/skills/wish/SKILL.md"
-            copy_if_missing "$SRC_DIR/claude/skills/fulfill/SKILL.md" "$PROJECT_DIR/.claude/skills/fulfill/SKILL.md"
-            copy_if_missing "$SRC_DIR/config/sprite.yaml" "$PROJECT_DIR/.claude/sprite.yaml"
+            copy_file "$SRC_DIR/claude/skills/wish/SKILL.md" "$PROJECT_DIR/.claude/skills/wish/SKILL.md"
+            copy_file "$SRC_DIR/claude/skills/fulfill/SKILL.md" "$PROJECT_DIR/.claude/skills/fulfill/SKILL.md"
+            copy_file "$SRC_DIR/config/sprite.yaml" "$PROJECT_DIR/.claude/sprite.yaml"
             ;;
         gemini)
             # Gemini CLI uses gemini skills install + .gemini/ for config
@@ -139,8 +133,8 @@ for agent in "${agents[@]}"; do
             gemini skills install "$SRC_DIR/gemini/skills/fulfill" --scope user --consent 2>/dev/null || \
                 echo "  (skill may already be installed or gemini needs auth)"
             mkdir -p "$PROJECT_DIR/.gemini"
-            copy_if_missing "$SRC_DIR/config/sprite.yaml" "$PROJECT_DIR/.gemini/sprite.yaml"
-            copy_if_missing "$SRC_DIR/config/sprite.yaml" "$PROJECT_DIR/.gemini/sprite.yaml"
+            copy_file "$SRC_DIR/config/sprite.yaml" "$PROJECT_DIR/.gemini/sprite.yaml"
+            copy_file "$SRC_DIR/config/sprite.yaml" "$PROJECT_DIR/.gemini/sprite.yaml"
             installed+=("gemini skills: wish, fulfill, config: .gemini/sprite.yaml")
             ;;
     esac
@@ -149,7 +143,7 @@ done
 # 4. Scripts
 echo "Installing scripts..."
 mkdir -p "$PROJECT_DIR/scripts"
-copy_if_missing "$SRC_DIR/scripts/wish-daemon.sh" "$PROJECT_DIR/scripts/wish-daemon.sh"
+copy_file "$SRC_DIR/scripts/wish-daemon.sh" "$PROJECT_DIR/scripts/wish-daemon.sh"
 chmod +x "$PROJECT_DIR/scripts/wish-daemon.sh" 2>/dev/null || true
 
 # Generate scheduler config based on OS
@@ -188,10 +182,10 @@ fi
 # 5. Wishes directory
 echo "Setting up wishes directory..."
 mkdir -p "$PROJECT_DIR/wishes/.completed"
-copy_if_missing "$SRC_DIR/wishes/.gitkeep" "$PROJECT_DIR/wishes/.gitkeep"
-copy_if_missing "$SRC_DIR/wishes/.completed/.gitkeep" "$PROJECT_DIR/wishes/.completed/.gitkeep"
-copy_if_missing "$SRC_DIR/wishes/_example/wish.md" "$PROJECT_DIR/wishes/_example/wish.md"
-copy_if_missing "$SRC_DIR/wishes/_example/meta.yaml" "$PROJECT_DIR/wishes/_example/meta.yaml"
+copy_file "$SRC_DIR/wishes/.gitkeep" "$PROJECT_DIR/wishes/.gitkeep"
+copy_file "$SRC_DIR/wishes/.completed/.gitkeep" "$PROJECT_DIR/wishes/.completed/.gitkeep"
+copy_file "$SRC_DIR/wishes/_example/wish.md" "$PROJECT_DIR/wishes/_example/wish.md"
+copy_file "$SRC_DIR/wishes/_example/meta.yaml" "$PROJECT_DIR/wishes/_example/meta.yaml"
 
 # 6. Ensure .worktrees is gitignored
 echo "Checking .gitignore..."
