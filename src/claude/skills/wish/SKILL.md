@@ -1,7 +1,6 @@
 ---
 name: wish
 description: Create a new feature wish with guided brainstorming. Use when user wants to add a feature and says "/wish" or describes something they want.
-disable-model-invocation: true
 ---
 
 Guide the user through creating a high-quality wish for the autonomous agent pipeline.

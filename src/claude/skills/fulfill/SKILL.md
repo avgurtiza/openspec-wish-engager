@@ -1,7 +1,6 @@
 ---
 name: fulfill
 description: Autonomous pipeline to pick a wish, plan it, implement it in a git worktree, and log results. Use when user says "/fulfill" or wants to work on pending wishes.
-disable-model-invocation: true
 ---
 
 Run the autonomous sprite pipeline.
