@@ -120,6 +120,8 @@ for agent in "${agents[@]}"; do
             copy_if_missing "$SRC_DIR/skills/fulfill/SKILL.md" "$PROJECT_DIR/.opencode/skills/fulfill/SKILL.md"
             copy_if_missing "$SRC_DIR/commands/wish.md" "$PROJECT_DIR/.opencode/command/wish.md"
             copy_if_missing "$SRC_DIR/commands/fulfill.md" "$PROJECT_DIR/.opencode/command/fulfill.md"
+            copy_if_missing "$SRC_DIR/config/sprite.yaml.example" "$PROJECT_DIR/.opencode/sprite.yaml.example"
+            copy_if_missing "$SRC_DIR/config/sprite.yaml.example" "$PROJECT_DIR/.opencode/sprite.yaml"
             ;;
         claude)
             # Claude Code uses .claude/ structure
@@ -127,24 +129,24 @@ for agent in "${agents[@]}"; do
             copy_if_missing "$SRC_DIR/claude/skills/fulfill/SKILL.md" "$PROJECT_DIR/.claude/skills/fulfill/SKILL.md"
             copy_if_missing "$SRC_DIR/claude/commands/wish.md" "$PROJECT_DIR/.claude/commands/wish.md"
             copy_if_missing "$SRC_DIR/claude/commands/fulfill.md" "$PROJECT_DIR/.claude/commands/fulfill.md"
+            copy_if_missing "$SRC_DIR/config/sprite.yaml.example" "$PROJECT_DIR/.claude/sprite.yaml.example"
+            copy_if_missing "$SRC_DIR/config/sprite.yaml.example" "$PROJECT_DIR/.claude/sprite.yaml"
             ;;
         gemini)
-            # Gemini CLI uses gemini skills install
+            # Gemini CLI uses gemini skills install + .gemini/ for config
             echo "Installing wish skill for Gemini CLI..."
             gemini skills install "$SRC_DIR/gemini/skills/wish" --scope user --consent 2>/dev/null || \
                 echo "  (skill may already be installed or gemini needs auth)"
             echo "Installing fulfill skill for Gemini CLI..."
             gemini skills install "$SRC_DIR/gemini/skills/fulfill" --scope user --consent 2>/dev/null || \
                 echo "  (skill may already be installed or gemini needs auth)"
-            installed+=("gemini skills: wish, fulfill")
+            mkdir -p "$PROJECT_DIR/.gemini"
+            copy_if_missing "$SRC_DIR/config/sprite.yaml.example" "$PROJECT_DIR/.gemini/sprite.yaml.example"
+            copy_if_missing "$SRC_DIR/config/sprite.yaml.example" "$PROJECT_DIR/.gemini/sprite.yaml"
+            installed+=("gemini skills: wish, fulfill, config: .gemini/sprite.yaml")
             ;;
     esac
 done
-
-# 3. Config (shared)
-echo "Installing config..."
-copy_if_missing "$SRC_DIR/config/wish-engager.yaml.example" "$PROJECT_DIR/.opencode/wish-engager.yaml.example"
-copy_if_missing "$SRC_DIR/config/wish-engager.yaml.example" "$PROJECT_DIR/.opencode/wish-engager.yaml"
 
 # 4. Scripts
 echo "Installing scripts..."
@@ -157,8 +159,8 @@ PROJECT_NAME=$(basename "$PROJECT_DIR")
 
 if [ "$OS" = "macos" ]; then
     # macOS: launchd plist
-    PLIST_LABEL="com.${PROJECT_NAME}.wish-engager"
-    PLIST_DST="$PROJECT_DIR/scripts/${PLIST_LABEL}.plist"
+PLIST_LABEL="com.${PROJECT_NAME}.sprite"
+            PLIST_DST="$PROJECT_DIR/scripts/${PLIST_LABEL}.plist"
 
     if [ -e "$PLIST_DST" ]; then
         skipped+=("$PLIST_DST")
@@ -168,19 +170,19 @@ if [ "$OS" = "macos" ]; then
              s|__SCRIPT_PATH__|$PROJECT_DIR/scripts/wish-daemon.sh|g
              s|__INTERVAL__|1800|g
              s|__PROJECT_DIR__|$PROJECT_DIR|g" \
-            "$SRC_DIR/scripts/wish-engager.plist.template" "$PLIST_DST"
+            "$SRC_DIR/scripts/sprite.plist.template" "$PLIST_DST"
         installed+=("$PLIST_DST")
     fi
 else
     # Linux / WSL: cron entry
-    CRON_DST="$PROJECT_DIR/scripts/wish-engager.cron"
+    CRON_DST="$PROJECT_DIR/scripts/sprite.cron"
 
     if [ -e "$CRON_DST" ]; then
         skipped+=("$CRON_DST")
     else
         sed_replace \
             "s|/path/to/your/project|$PROJECT_DIR|g" \
-            "$SRC_DIR/scripts/wish-engager.cron.template" "$CRON_DST"
+            "$SRC_DIR/scripts/sprite.cron.template" "$CRON_DST"
         installed+=("$CRON_DST")
     fi
 fi
@@ -199,14 +201,14 @@ GITIGNORE="$PROJECT_DIR/.gitignore"
 if [ -f "$GITIGNORE" ]; then
     if ! grep -q '\.worktrees' "$GITIGNORE"; then
         echo "" >> "$GITIGNORE"
-        echo "# Git worktrees (wish-engager)" >> "$GITIGNORE"
+        echo "# Git worktrees (sprite)" >> "$GITIGNORE"
         echo ".worktrees/" >> "$GITIGNORE"
         installed+=("$GITIGNORE (appended .worktrees/)")
     else
         skipped+=("$GITIGNORE (.worktrees already ignored)")
     fi
 else
-    echo "# Git worktrees (wish-engager)" > "$GITIGNORE"
+    echo "# Git worktrees (sprite)" > "$GITIGNORE"
     echo ".worktrees/" >> "$GITIGNORE"
     installed+=("$GITIGNORE (created)")
 fi
@@ -235,7 +237,7 @@ if [ ${#skipped[@]} -gt 0 ]; then
 fi
 
 echo "Next steps:"
-echo "  1. Edit .opencode/wish-engager.yaml to configure lint/test commands"
+echo "  1. Edit your agent's config file to configure lint/test commands"
 echo "  2. Restart your AI agent to pick up new skills"
 echo "  3. Run /wish to create your first wish"
 echo "  4. Run /fulfill to start the pipeline"

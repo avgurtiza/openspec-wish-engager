@@ -1,5 +1,5 @@
-# Wish Engager Configuration
-# Copy this to .opencode/wish-engager.yaml and customize for your project.
+# Sprite Configuration
+# Copy this to .opencode/sprite.yaml and customize for your project.
 
 # Commands run during the verify step after implementation.
 # The agent runs these in sequence. If any fails, it notes it in the run-log.

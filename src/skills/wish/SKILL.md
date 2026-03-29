@@ -11,7 +11,7 @@ Guide the user through creating a high-quality wish for the autonomous agent pip
 
 **Input**: Optionally, text after `/wish` describing what they want. If provided, skip the initial question.
 
-**Prerequisites**: Project must have `wishes/` directory. Run `install.sh` from the wish-engager repo if not present.
+**Prerequisites**: Project must have `wishes/` directory. Run `install.sh` from the sprite repo if not present.
 
 **Steps**
 

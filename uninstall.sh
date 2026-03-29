@@ -67,21 +67,28 @@ if [ -f "$PROJECT_DIR/scripts/wish-daemon.sh" ]; then
 fi
 
 # Remove plist in scripts/ (not in LaunchAgents — user manages that)
-for plist in "$PROJECT_DIR/scripts/"*.wish-engager.plist; do
+for plist in "$PROJECT_DIR/scripts/"*.sprite.plist; do
     [ -f "$plist" ] || continue
     rm "$plist"
     removed+=("$plist")
 done
 
 # Remove cron file in scripts/ (not in user's crontab — user manages that)
-for cron in "$PROJECT_DIR/scripts/"*.wish-engager.cron; do
+for cron in "$PROJECT_DIR/scripts/"*.sprite.cron; do
     [ -f "$cron" ] || continue
     rm "$cron"
     removed+=("$cron")
 done
 
+# Remove config files from all possible locations
+for cfg in ".opencode/sprite.yaml" ".claude/sprite.yaml" ".gemini/sprite.yaml"; do
+    if [ -f "$PROJECT_DIR/$cfg" ]; then
+        rm "$PROJECT_DIR/$cfg"
+        removed+=("$PROJECT_DIR/$cfg")
+    fi
+done
+
 # Preserved items
-preserved+=("$PROJECT_DIR/.opencode/wish-engager.yaml (config — remove manually)")
 preserved+=("$PROJECT_DIR/wishes/ (your wishes)")
 preserved+=("$PROJECT_DIR/.worktrees/ (your worktrees)")
 
@@ -113,8 +120,8 @@ echo ""
 
 echo "To remove the daemon scheduler:"
 if [ "$OS" = "macos" ]; then
-    echo "  launchctl unload ~/Library/LaunchAgents/com.*.wish-engager.plist"
-    echo "  rm ~/Library/LaunchAgents/com.*.wish-engager.plist"
+    echo "  launchctl unload ~/Library/LaunchAgents/com.*.sprite.plist"
+    echo "  rm ~/Library/LaunchAgents/com.*.sprite.plist"
 else
     echo "  crontab -e    # then delete the wish-daemon.sh line"
 fi

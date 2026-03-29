@@ -3,11 +3,11 @@ name: fulfill
 description: Autonomous pipeline to pick a wish, plan it, implement it in a git worktree, and log results. Use when user says "/fulfill" or wants to work on pending wishes.
 ---
 
-Run the autonomous wish-engager pipeline.
+Run the autonomous sprite pipeline.
 
 **Prerequisites**:
 - `wishes/` directory with pending wishes
-- `.opencode/wish-engager.yaml` config file (optional — uses defaults if missing)
+- `.gemini/sprite.yaml` config file (optional — uses defaults if missing)
 
 **Input**: Optionally specify:
 - `--all` — loop until no pending wishes remain
@@ -18,7 +18,7 @@ Run the autonomous wish-engager pipeline.
 
 1. **Load configuration**
 
-   Read `.opencode/wish-engager.yaml` if it exists. Use defaults for any missing keys:
+   Read `.opencode/sprite.yaml` if it exists. Use defaults for any missing keys:
 
    ```yaml
    # Defaults

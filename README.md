@@ -71,16 +71,21 @@ Or install into the current directory:
 The install script auto-detects which agents are installed and installs to the appropriate locations.
 
 This installs:
-- **OpenCode/KiloCode:** `.opencode/skills/wish/`, `.opencode/skills/fulfill/`, `.opencode/command/wish.md`, `.opencode/command/fulfill.md`
-- **Claude Code:** `.claude/skills/wish/`, `.claude/skills/fulfill/`, `.claude/commands/wish.md`, `.claude/commands/fulfill.md`
-- **Gemini CLI:** Installs skills via `gemini skills install`
-- `.opencode/wish-engager.yaml` — config (lint/test commands)
+- **OpenCode/KiloCode:** `.opencode/skills/`, `.opencode/command/`, `.opencode/sprite.yaml`
+- **Claude Code:** `.claude/skills/`, `.claude/commands/`, `.claude/sprite.yaml`
+- **Gemini CLI:** Skills via `gemini skills install`, config: `.gemini/sprite.yaml`
 - `scripts/wish-daemon.sh` — daemon for autonomous runs
 - `wishes/` — wish directory with example
 
 ## Configuration
 
-Edit `.opencode/wish-engager.yaml`:
+Edit the config file for your agent:
+
+| Agent | Config Location |
+|-------|----------------|
+| OpenCode/KiloCode | `.opencode/sprite.yaml` |
+| Claude Code | `.claude/sprite.yaml` |
+| Gemini CLI | `.gemini/sprite.yaml` |
 
 ```yaml
 verify:
@@ -130,18 +135,18 @@ The install script detects your OS and generates the right scheduler config.
 **macOS (launchd):**
 
 ```bash
-cp scripts/com.*.wish-engager.plist ~/Library/LaunchAgents/
-launchctl load ~/Library/LaunchAgents/com.*.wish-engager.plist
+cp scripts/com.*.sprite.plist ~/Library/LaunchAgents/
+launchctl load ~/Library/LaunchAgents/com.*.sprite.plist
 ```
 
 **Linux / WSL (cron):**
 
 ```bash
 # Review the generated cron entry:
-cat scripts/wish-engager.cron
+cat scripts/sprite.cron
 
 # Install it:
-(crontab -l 2>/dev/null; cat scripts/wish-engager.cron) | crontab -
+(crontab -l 2>/dev/null; cat scripts/sprite.cron) | crontab -
 ```
 
 Runs every 30 minutes. Exits immediately if no pending wishes.
@@ -158,8 +163,8 @@ To remove the daemon scheduler:
 
 ```bash
 # macOS
-launchctl unload ~/Library/LaunchAgents/com.*.wish-engager.plist
-rm ~/Library/LaunchAgents/com.*.wish-engager.plist
+launchctl unload ~/Library/LaunchAgents/com.*.sprite.plist
+rm ~/Library/LaunchAgents/com.*.sprite.plist
 
 # Linux / WSL
 crontab -e    # then delete the wish-daemon.sh line
@@ -188,7 +193,7 @@ your-project/
 │   ├── command/
 │   │   ├── wish.md
 │   │   └── fulfill.md
-│   └── wish-engager.yaml
+│   └── sprite.yaml
 ├── .claude/                     # (Claude Code only)
 │   ├── skills/
 │   │   ├── wish/SKILL.md
@@ -196,6 +201,16 @@ your-project/
 │   └── commands/
 │       ├── wish.md
 │       └── fulfill.md
+├── .claude/                     # (Claude Code only)
+│   ├── skills/
+│   │   ├── wish/SKILL.md
+│   │   └── fulfill/SKILL.md
+│   ├── commands/
+│   │   ├── wish.md
+│   │   └── fulfill.md
+│   └── sprite.yaml
+├── .gemini/                     # (Gemini CLI only)
+│   └── sprite.yaml
 ├── wishes/
 │   ├── _example/
 │   ├── .completed/
@@ -210,8 +225,8 @@ your-project/
 │   └── (agent creates isolated workspaces here)
 └── scripts/
     ├── wish-daemon.sh
-    ├── com.yourproject.wish-engager.plist   # macOS
-    └── wish-engager.cron                     # Linux/WSL
+    ├── com.yourproject.sprite.plist   # macOS
+    └── wish-daemon.cron               # Linux/WSL
 ```
 
 ## License

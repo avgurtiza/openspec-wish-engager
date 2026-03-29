@@ -1,8 +1,8 @@
 ---
-description: Run the autonomous wish-engager pipeline
+description: Run the autonomous sprite pipeline
 ---
 
-Run the autonomous wish-engager pipeline.
+Run the autonomous sprite pipeline.
 
 **Input**: Optionally specify:
 - `/fulfill` — run one cycle (pick + implement one wish)

@@ -7,11 +7,11 @@ metadata:
   version: "1.0"
 ---
 
-Run the autonomous wish-engager pipeline.
+Run the autonomous sprite pipeline.
 
 **Prerequisites**:
 - `wishes/` directory with pending wishes
-- `.opencode/wish-engager.yaml` config file (optional — uses defaults if missing)
+- `.opencode/sprite.yaml` config file (optional — uses defaults if missing)
 
 **Input**: Optionally specify:
 - `--all` — loop until no pending wishes remain
@@ -22,7 +22,7 @@ Run the autonomous wish-engager pipeline.
 
 1. **Load configuration**
 
-   Read `.opencode/wish-engager.yaml` if it exists. Use defaults for any missing keys:
+   Read `.opencode/sprite.yaml` if it exists. Use defaults for any missing keys:
 
    ```yaml
    # Defaults
