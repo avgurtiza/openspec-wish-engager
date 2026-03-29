@@ -56,10 +56,6 @@ detect_agents() {
         agents+=("claude")
     fi
     
-    if command -v gemini &>/dev/null; then
-        agents+=("gemini")
-    fi
-    
     if [ ${#agents[@]} -eq 0 ]; then
         echo "Warning: No known AI agents detected (opencode, kilo, claude)."
         echo "Will install files but commands may not be recognized."
@@ -123,20 +119,6 @@ for agent in "${agents[@]}"; do
             copy_file "$SRC_DIR/claude/skills/wish/SKILL.md" "$PROJECT_DIR/.claude/skills/wish/SKILL.md"
             copy_file "$SRC_DIR/claude/skills/fulfill/SKILL.md" "$PROJECT_DIR/.claude/skills/fulfill/SKILL.md"
             copy_file "$SRC_DIR/config/sprite.yaml" "$PROJECT_DIR/.claude/sprite.yaml"
-            ;;
-        gemini)
-            # Gemini CLI uses gemini skills install + .gemini/ for config
-            echo "Installing wish skill for Gemini CLI..."
-            gemini skills install "$SRC_DIR/gemini/skills/wish" --scope user --consent 2>/dev/null || \
-                echo "  (skill may already be installed or gemini needs auth)"
-            echo "Installing fulfill skill for Gemini CLI..."
-            gemini skills install "$SRC_DIR/gemini/skills/fulfill" --scope user --consent 2>/dev/null || \
-                echo "  (skill may already be installed or gemini needs auth)"
-            mkdir -p "$PROJECT_DIR/.gemini"
-            copy_file "$SRC_DIR/config/sprite.yaml" "$PROJECT_DIR/.gemini/sprite.yaml"
-            copy_file "$SRC_DIR/config/sprite.yaml" "$PROJECT_DIR/.gemini/sprite.yaml"
-            installed+=("gemini skills: wish, fulfill, config: .gemini/sprite.yaml")
-            ;;
     esac
 done
 
