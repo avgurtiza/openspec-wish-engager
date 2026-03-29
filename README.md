@@ -2,7 +2,7 @@
 
 An agent-agnostic pipeline for autonomous software development. Place feature requirements (wishes) into a directory, and an AI agent handles the planning, implementation in isolated git worktrees, and verification.
 
-**Compatible agents:** OpenCode, KiloCode, Claude Code
+**Compatible agents:** OpenCode, KiloCode, Claude Code, Gemini CLI
 **Platforms:** macOS, Linux, Windows WSL
 
 ## Workflow
@@ -26,8 +26,7 @@ The installation script detects available agents and configures them accordingly
 | OpenCode | `.opencode/skills/` | File copy |
 | KiloCode | `.opencode/skills/` | File copy |
 | Claude Code | `.claude/skills/` | File copy |
-
-> **Gemini CLI:** See [docs/manual-install-gemini.md](docs/manual-install-gemini.md) for manual setup.
+| Gemini CLI | `~/.agents/skills/` | `gemini skills install` |
 
 ## Installation
 
@@ -59,9 +58,11 @@ skip_example: true
 Guided brainstorming to capture feature intent. Converts a vague idea into a structured markdown file.
 
 ```
-/wish                        # starts conversation
-/wish add dark mode          # starts with description
+/wish                        # OpenCode, KiloCode, Claude Code: starts conversation
+/wish add dark mode          # All agents: starts with description
 ```
+
+> **Gemini CLI limitation:** Due to how Gemini loads skills, `/wish` alone will not start the conversation. You must provide a description: `/wish add dark mode`.
 
 ### /fulfill
 Starts the autonomous implementation pipeline.
@@ -94,6 +95,8 @@ project-root/
 │   └── sprite.yaml
 ├── .claude/             # Claude Code
 │   ├── skills/          # Sprite skills
+│   └── sprite.yaml
+├── .gemini/             # Gemini CLI
 │   └── sprite.yaml
 ├── wishes/              # Feature requirements and logs
 │   ├── add-dark-mode/

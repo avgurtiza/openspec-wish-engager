@@ -8,13 +8,3 @@ Thumbs.db
 *.swp
 *.swo
 *~
-
-# Git worktrees (sprite)
-.worktrees/
-
-# Sprite install targets (shouldn't be in source repo)
-/.opencode/
-/.claude/
-/.gemini/
-/scripts/
-/wishes/
