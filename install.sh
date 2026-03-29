@@ -5,7 +5,7 @@
 #   ./install.sh                  # Install into current directory
 #   ./install.sh /path/to/project # Install into specific project
 #
-# Supports: OpenCode, KiloCode, Claude Code
+# Supports: OpenCode, KiloCode, Claude Code, Gemini CLI
 # Supports: macOS (launchd), Linux (cron), Windows WSL (cron)
 # This copies skills, commands, scripts, and wish directory structure
 # into the target project. Existing files are not overwritten.
@@ -54,6 +54,10 @@ detect_agents() {
     
     if command -v claude &>/dev/null; then
         agents+=("claude")
+    fi
+    
+    if command -v gemini &>/dev/null; then
+        agents+=("gemini")
     fi
     
     if [ ${#agents[@]} -eq 0 ]; then
@@ -123,6 +127,16 @@ for agent in "${agents[@]}"; do
             copy_if_missing "$SRC_DIR/claude/skills/fulfill/SKILL.md" "$PROJECT_DIR/.claude/skills/fulfill/SKILL.md"
             copy_if_missing "$SRC_DIR/claude/commands/wish.md" "$PROJECT_DIR/.claude/commands/wish.md"
             copy_if_missing "$SRC_DIR/claude/commands/fulfill.md" "$PROJECT_DIR/.claude/commands/fulfill.md"
+            ;;
+        gemini)
+            # Gemini CLI uses gemini skills install
+            echo "Installing wish skill for Gemini CLI..."
+            gemini skills install "$SRC_DIR/gemini/skills/wish" --scope user --consent 2>/dev/null || \
+                echo "  (skill may already be installed or gemini needs auth)"
+            echo "Installing fulfill skill for Gemini CLI..."
+            gemini skills install "$SRC_DIR/gemini/skills/fulfill" --scope user --consent 2>/dev/null || \
+                echo "  (skill may already be installed or gemini needs auth)"
+            installed+=("gemini skills: wish, fulfill")
             ;;
     esac
 done
