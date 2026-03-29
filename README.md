@@ -82,18 +82,23 @@ launchctl load ~/Library/LaunchAgents/com.*.sprite.plist
 
 ```
 project-root/
-├── .opencode/           # or .claude/, .gemini/
-│   ├── skills/          # Sprite skill definitions
-│   ├── command/         # Sprite slash commands
-│   └── sprite.yaml      # Configuration
+├── .opencode/           # OpenCode/KiloCode
+│   ├── skills/          # Sprite skills
+│   ├── command/          # Slash commands
+│   └── sprite.yaml
+├── .claude/             # Claude Code
+│   ├── skills/          # Sprite skills
+│   └── sprite.yaml
+├── .gemini/             # Gemini CLI
+│   └── sprite.yaml
 ├── wishes/              # Feature requirements and logs
 │   ├── add-dark-mode/
-│   │   ├── wish.md      # Requirement spec
-│   │   ├── proposal.md  # Generated plan
-│   │   ├── tasks.md     # Checkbox progress
-│   │   └── run-log.md   # Implementation history
-│   └── .completed/      # Finished wishes
-└── .worktrees/          # Isolated implementation environments
+│   │   ├── wish.md
+│   │   ├── proposal.md
+│   │   ├── tasks.md
+│   │   └── run-log.md
+│   └── .completed/
+└── .worktrees/
 ```
 
 ## License

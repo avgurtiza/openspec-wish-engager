@@ -125,12 +125,9 @@ for agent in "${agents[@]}"; do
             copy_if_missing "$SRC_DIR/config/sprite.yaml" "$PROJECT_DIR/.opencode/sprite.yaml"
             ;;
         claude)
-            # Claude Code uses .claude/ structure
+            # Claude Code uses .claude/ structure (skills only, no commands dir)
             copy_if_missing "$SRC_DIR/claude/skills/wish/SKILL.md" "$PROJECT_DIR/.claude/skills/wish/SKILL.md"
             copy_if_missing "$SRC_DIR/claude/skills/fulfill/SKILL.md" "$PROJECT_DIR/.claude/skills/fulfill/SKILL.md"
-            copy_if_missing "$SRC_DIR/claude/commands/wish.md" "$PROJECT_DIR/.claude/commands/wish.md"
-            copy_if_missing "$SRC_DIR/claude/commands/fulfill.md" "$PROJECT_DIR/.claude/commands/fulfill.md"
-            copy_if_missing "$SRC_DIR/config/sprite.yaml" "$PROJECT_DIR/.claude/sprite.yaml"
             copy_if_missing "$SRC_DIR/config/sprite.yaml" "$PROJECT_DIR/.claude/sprite.yaml"
             ;;
         gemini)
