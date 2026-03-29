@@ -65,13 +65,14 @@ detect_agents() {
         echo "Will install files but commands may not be recognized."
         agents=("opencode")  # Default to opencode structure
     fi
-    
-    echo "Detected agents: ${agents[*]}"
 }
 
 OS="$(detect_os)"
 echo "Detected OS: $OS"
-AGENTS="$(detect_agents)"
+
+# Detect agents (runs in current shell to populate agents array)
+detect_agents
+echo "Detected agents: ${agents[*]}"
 echo ""
 
 # Verify it looks like a project directory
