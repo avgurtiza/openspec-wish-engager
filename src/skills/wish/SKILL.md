@@ -3,7 +3,7 @@ name: wish
 description: Create a new feature wish with guided brainstorming. Structures freeform ideas into clear mini PRDs that autonomous agents can implement without guessing intent.
 license: MIT
 metadata:
-  author: tatay
+  author: Slide Gurtiza
   version: "1.0"
 ---
 

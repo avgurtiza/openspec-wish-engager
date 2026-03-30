@@ -3,7 +3,7 @@ name: fulfill
 description: Autonomous agent pipeline. Scans the wish list, picks the highest-affinity pending wish, promotes it to a change, implements it in a git worktree, and logs results.
 license: MIT
 metadata:
-  author: tatay
+  author: Slide Gurtiza
   version: "1.0"
 ---
 
